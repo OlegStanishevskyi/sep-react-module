@@ -2,6 +2,12 @@ import {carService} from "../../services";
 
 const Car = ({car,setUpdateCar,setCars}) => {
     const{id,brand,price,year} = car
+
+    const deleteCar = async ()=>{
+        await carService.deleteByid(id);
+        const {data} = await carService.getAll();
+        setCars([...data])
+    }
     return (
         <div>
             <div>id:{id}</div>
@@ -9,18 +15,7 @@ const Car = ({car,setUpdateCar,setCars}) => {
             <div>year:{year}</div>
             <div>price:{price}</div>
             <button onClick={()=>setUpdateCar(car)}>Update</button>
-            <button onClick={()=>{
-                // carService.deleteByid(id).then(async ()=>{
-                //     const {data}=await carService.getAll();
-                //     setCars([...data])
-                // }).catch(err=>console.log(err))
-
-                carService.deleteByid(id).then(async ()=>{
-                    const{data} = await carService.getAll()
-                    setCars([...data])
-                }).catch(err => console.log(err))
-
-            }}>Delete</button>
+            <button onClick={()=>deleteCar()}>Delete</button>
         </div>
     );
 };
